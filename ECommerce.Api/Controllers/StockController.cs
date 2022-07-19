@@ -15,9 +15,10 @@ namespace ECommerce.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(CreateStockDto createStockDto)
+        public IActionResult Add([FromBody] CreateStockDto createStockDto)
         {
-            return View();
+            _stockService.AddAsync(createStockDto);
+            return Ok();
         }
     }
 }

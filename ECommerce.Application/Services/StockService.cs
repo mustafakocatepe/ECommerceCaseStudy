@@ -15,18 +15,47 @@ namespace ECommerce.Application.Services
     {
         private readonly IStockRepository _stockRepository;
         private readonly IRedisCacheService _redisCacheService;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        public const string StockDetailByVariantCode = "StockDetailByVariantCode:{0}";
 
-        public StockService(IStockRepository stockRepository, IRedisCacheService redisCacheService)
+
+        public StockService(IStockRepository stockRepository, IUnitOfWork unitOfWork, IRedisCacheService redisCacheService)
         {
             _stockRepository = stockRepository;
             _redisCacheService = redisCacheService;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task AddAsync(CreateStockDto stockDto) 
+        public async Task AddAsync(CreateStockDto stockDto)
         {
-            var stock = _mapper.Map<Stock>(stockDto);
-            await _stockRepository.AddAsync(stock);        
+            var stock = new Stock()
+            {
+                Product = new Product() { Code = stockDto.ProductCode },
+                Variant = new Variant() { Code = stockDto.VariantCode },
+                Quantity = stockDto.Quantity
+            };
+            await _stockRepository.AddAsync(stock);
+            _unitOfWork.Commit();
+        }
+
+        public async Task<StockDto> GetStockByVariantCodeAsync(string variantCode)
+        {
+            var cacheKey = string.Format(StockDetailByVariantCode, variantCode);
+            var response = _redisCacheService.Get<StockDto>(cacheKey);
+
+            if (response != null)
+                return response;
+
+            var stock = _stockRepository.FirstOrDefaultAsync(x => x.Variant.Code == variantCode).Result;
+
+            if (stock == null)
+                return null; // TO DO
+
+            response = new StockDto() { Id = stock.Id, Quantity = stock.Quantity };
+            _redisCacheService.Set(cacheKey, response);
+
+            return response;
         }
     }
 }

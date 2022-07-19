@@ -1,6 +1,7 @@
 ﻿using ECommerce.Application.Common.Interfaces;
 using ECommerce.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,8 @@ namespace ECommerce.Application
             services.AddScoped<IStockService, StockService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IVariantService, VariantService>();
+            services.TryAddSingleton<IRedisCacheService, RedisCacheService>();
+
             return services;
         }
     }
