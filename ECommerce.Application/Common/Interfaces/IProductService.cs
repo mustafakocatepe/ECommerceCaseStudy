@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ECommerce.Application.Common.Interfaces
 {
-    internal interface IProductService
+    public interface IProductService
     {
     }
 }

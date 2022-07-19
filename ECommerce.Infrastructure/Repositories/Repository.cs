@@ -21,20 +21,16 @@ namespace ECommerce.Infrastructure.Repositories
         public async Task AddAsync(TEntity entity)
         {
             await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
             await _dbSet.AddRangeAsync(entities);
-            await _context.SaveChangesAsync();
-
         }
 
         public virtual void Remove(TEntity entity)
         {
             _dbSet.Remove(entity);
-            _context.SaveChanges();
         }
 
         public void RemoveRange(IEnumerable<TEntity> entities)
@@ -42,11 +38,9 @@ namespace ECommerce.Infrastructure.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public async Task Update(TEntity entity)
+        public void Update(TEntity entity)
         {
-            var updatedEntity = _context.Entry(entity);
-            updatedEntity.State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            _context.Update(entity);
         }
 
         public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> predicate)

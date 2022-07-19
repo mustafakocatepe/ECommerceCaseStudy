@@ -10,7 +10,7 @@ namespace ECommerce.Application.Common.Repositories
     {
         Task AddAsync(TEntity entity);
         Task AddRangeAsync(IEnumerable<TEntity> entities);
-        Task Update(TEntity entity);
+        void Update(TEntity entity);
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
 

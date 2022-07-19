@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ECommerce.Application.Common.DTOs.Stock;
+using ECommerce.Application.Common.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ECommerce.Api.Controllers
 {
@@ -6,7 +8,14 @@ namespace ECommerce.Api.Controllers
     [Route("api/stocks")]
     public class StockController : Controller
     {
-        public IActionResult Index()
+        private readonly IStockService _stockService;
+        public StockController(IStockService stockService)
+        {
+            _stockService = stockService;
+        }
+
+        [HttpPost]
+        public IActionResult Add(CreateStockDto createStockDto)
         {
             return View();
         }
