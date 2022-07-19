@@ -10,45 +10,36 @@ namespace ECommerce.Infrastructure.UnitofWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public ECommerceDbContext Context { get; internal set; }
-        private bool isTransaction { get; set; }
+        private readonly ECommerceDbContext _context;
 
         public UnitOfWork(ECommerceDbContext context)
         {
-            Context = context;
+            _context = context;
         }
 
         public void BeginTransaction()
         {
-            Context.Database.BeginTransaction();
-            isTransaction = true;
+            _context.Database.BeginTransaction();
         }
 
         public void Commit()
         {
-            Context.Database.CommitTransaction();
-            isTransaction = false;
-        }
-
-        public bool IsTransactionContinue()
-        {
-            return isTransaction;
+            _context.Database.CommitTransaction();
         }
 
         public void Rollback()
         {
-            Context.Database.RollbackTransaction();
-            isTransaction = false;
+            _context.Database.RollbackTransaction();
         }
 
-        public Task<int> SaveChanges()
+        public Task<int> SaveChangesAsync()
         {
-            return Context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            return Context.SaveChangesAsync(cancellationToken);
+            return _context.SaveChangesAsync(cancellationToken);
         }
     }
 }

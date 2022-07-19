@@ -14,29 +14,38 @@ namespace ECommerce.Application.Services
     public class StockService : IStockService
     {
         private readonly IStockRepository _stockRepository;
+        private readonly IVariantService _variantService;
         private readonly IRedisCacheService _redisCacheService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public const string StockDetailByVariantCode = "StockDetailByVariantCode:{0}";
 
 
-        public StockService(IStockRepository stockRepository, IUnitOfWork unitOfWork, IRedisCacheService redisCacheService)
+        public StockService(IStockRepository stockRepository, IVariantService variantService, IUnitOfWork unitOfWork, IRedisCacheService redisCacheService)
         {
             _stockRepository = stockRepository;
+            _variantService = variantService;
             _redisCacheService = redisCacheService;
             _unitOfWork = unitOfWork;
         }
 
         public async Task AddAsync(CreateStockDto stockDto)
         {
-            var stock = new Stock()
+            var variant = await _variantService.Detail(stockDto.VariantCode);
+
+            if (variant == null)
+                _stockRepository.Create(stockDto);
+            else
             {
-                Product = new Product() { Code = stockDto.ProductCode },
-                Variant = new Variant() { Code = stockDto.VariantCode },
-                Quantity = stockDto.Quantity
-            };
-            await _stockRepository.AddAsync(stock);
-            _unitOfWork.Commit();
+                var stock = new Stock()
+                {
+                    ProductId = variant.ProductId,
+                    VariantId = variant.Id,
+                    Quantity = stockDto.Quantity,
+                };
+
+                await _stockRepository.AddAsync(stock);
+            }
         }
 
         public async Task<StockDto> GetStockByVariantCodeAsync(string variantCode)

@@ -13,11 +13,11 @@ namespace ECommerce.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Code = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 7, 19, 23, 1, 28, 831, DateTimeKind.Local).AddTicks(9588)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 7, 20, 1, 59, 57, 157, DateTimeKind.Local).AddTicks(879)),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -57,7 +57,7 @@ namespace ECommerce.Infrastructure.Migrations
                     Quantity = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     VariantId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 7, 19, 23, 1, 28, 849, DateTimeKind.Local).AddTicks(508)),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2022, 7, 20, 1, 59, 57, 173, DateTimeKind.Local).AddTicks(5820)),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified))
                 },
                 constraints: table =>
@@ -76,6 +76,31 @@ namespace ECommerce.Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "Code", "CreatedDate", "Description", "IsActive", "Name", "UpdatedDate" },
+                values: new object[] { 1, "1010", new DateTime(2022, 7, 20, 1, 59, 57, 165, DateTimeKind.Local).AddTicks(9236), "Test test test", true, "Nike Ayakkabı", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Variants",
+                columns: new[] { "Id", "Code", "CreatedDate", "Name", "ProductId", "UpdatedDate" },
+                values: new object[] { 1, "1000000851096", new DateTime(2022, 7, 20, 1, 59, 57, 175, DateTimeKind.Local).AddTicks(8861), "Renk Mavi", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Variants",
+                columns: new[] { "Id", "Code", "CreatedDate", "Name", "ProductId", "UpdatedDate" },
+                values: new object[] { 2, "1000000851097", new DateTime(2022, 7, 20, 1, 59, 57, 175, DateTimeKind.Local).AddTicks(9403), "Renk Kirmizi", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) });
+
+            migrationBuilder.InsertData(
+                table: "Stocks",
+                columns: new[] { "Id", "CreatedDate", "ProductId", "Quantity", "VariantId" },
+                values: new object[] { 1, new DateTime(2022, 7, 20, 1, 59, 57, 174, DateTimeKind.Local).AddTicks(6323), 1, 10, 1 });
+
+            migrationBuilder.InsertData(
+                table: "Stocks",
+                columns: new[] { "Id", "CreatedDate", "ProductId", "Quantity", "VariantId" },
+                values: new object[] { 2, new DateTime(2022, 7, 20, 1, 59, 57, 174, DateTimeKind.Local).AddTicks(6853), 1, 15, 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stocks_ProductId",

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Infrastructure.Migrations
 {
     [DbContext(typeof(ECommerceDbContext))]
-    [Migration("20220719200129_first_migration")]
+    [Migration("20220719225957_first_migration")]
     partial class first_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,10 +36,9 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 7, 19, 23, 1, 28, 831, DateTimeKind.Local).AddTicks(9588));
+                        .HasDefaultValue(new DateTime(2022, 7, 20, 1, 59, 57, 157, DateTimeKind.Local).AddTicks(879));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -49,7 +48,6 @@ namespace ECommerce.Infrastructure.Migrations
                         .HasDefaultValue(true);
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -59,6 +57,18 @@ namespace ECommerce.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "1010",
+                            CreatedDate = new DateTime(2022, 7, 20, 1, 59, 57, 165, DateTimeKind.Local).AddTicks(9236),
+                            Description = "Test test test",
+                            IsActive = true,
+                            Name = "Nike Ayakkabı",
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Stock", b =>
@@ -66,12 +76,14 @@ namespace ECommerce.Infrastructure.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2022, 7, 19, 23, 1, 28, 849, DateTimeKind.Local).AddTicks(508));
+                        .HasDefaultValue(new DateTime(2022, 7, 20, 1, 59, 57, 173, DateTimeKind.Local).AddTicks(5820));
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -96,6 +108,26 @@ namespace ECommerce.Infrastructure.Migrations
                     b.HasIndex("VariantId");
 
                     b.ToTable("Stocks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2022, 7, 20, 1, 59, 57, 174, DateTimeKind.Local).AddTicks(6323),
+                            ProductId = 1,
+                            Quantity = 10,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            VariantId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedDate = new DateTime(2022, 7, 20, 1, 59, 57, 174, DateTimeKind.Local).AddTicks(6853),
+                            ProductId = 1,
+                            Quantity = 15,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            VariantId = 2
+                        });
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Variant", b =>
@@ -125,6 +157,26 @@ namespace ECommerce.Infrastructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Variants");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Code = "1000000851096",
+                            CreatedDate = new DateTime(2022, 7, 20, 1, 59, 57, 175, DateTimeKind.Local).AddTicks(8861),
+                            Name = "Renk Mavi",
+                            ProductId = 1,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "1000000851097",
+                            CreatedDate = new DateTime(2022, 7, 20, 1, 59, 57, 175, DateTimeKind.Local).AddTicks(9403),
+                            Name = "Renk Kirmizi",
+                            ProductId = 1,
+                            UpdatedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("ECommerce.Domain.Entities.Stock", b =>

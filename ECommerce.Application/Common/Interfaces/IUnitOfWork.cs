@@ -8,11 +8,10 @@ namespace ECommerce.Application.Common.Interfaces
 {
     public interface IUnitOfWork
     {
-        Task<int> SaveChanges();
+        Task<int> SaveChangesAsync();
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         void BeginTransaction();
         void Commit();
         void Rollback();
-        bool IsTransactionContinue();
     }
 }

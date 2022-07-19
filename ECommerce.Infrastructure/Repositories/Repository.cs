@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ECommerce.Infrastructure.Repositories
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         private readonly ECommerceDbContext _context;
         private readonly DbSet<TEntity> _dbSet;
@@ -20,7 +20,9 @@ namespace ECommerce.Infrastructure.Repositories
         }
         public async Task AddAsync(TEntity entity)
         {
-            await _dbSet.AddAsync(entity);
+            await _context.Set<TEntity>().AddAsync(entity);
+            _context.SaveChanges();
+            //await _context.SaveChangesAsync();
         }
 
         public async Task AddRangeAsync(IEnumerable<TEntity> entities)

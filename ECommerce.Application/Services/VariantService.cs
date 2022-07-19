@@ -23,6 +23,11 @@ namespace ECommerce.Application.Services
             _unitOfWork = unitOfWork;
         }
 
+        public async Task<Variant> Detail(string variantCode) 
+        {
+            return await _variantRepository.FirstOrDefaultAsync(x=> x.Code == variantCode);
+        }
+
         public async Task AddAsync(string variantCode)
         {
             var variant = new Variant() { Code = variantCode };

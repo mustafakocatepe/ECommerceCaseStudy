@@ -21,11 +21,11 @@ namespace ECommerce.Infrastructure.Context
         }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(
-                @"Server=.;Database=ECommerceCaseStudy;Trusted_Connection=True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(
+        //        @"Server=.;Database=ECommerceCaseStudy;integrated security=true;");
+        //}
     
     public DbSet<Product> Products { get; set; }
     public DbSet<Stock> Stocks { get; set; }

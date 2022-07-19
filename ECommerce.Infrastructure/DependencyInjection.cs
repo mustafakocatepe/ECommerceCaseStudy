@@ -22,6 +22,7 @@ namespace ECommerce.Infrastructure
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IVariantRepository, VariantRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             return services;
         }
     }
