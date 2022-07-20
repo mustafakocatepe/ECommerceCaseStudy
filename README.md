@@ -57,6 +57,18 @@ docker-compose build
 docker-compose run
 ```
 
+## Endpoints
+
+Swagger link
+
+```
+http://localhost:8080/swagger/index.html
+```
+
+- `POST  /api/stocks` Stock is created for the product and variant.
+- `GET   /api/products/{productCode}/stock` Returns stock by product code.
+- `GET   /api/variants/{variantCode}/stock` Returns stock by variant code.
+
 ## Built With
 
 * [.NET Core 3.1](https://www.microsoft.com/net/) 
