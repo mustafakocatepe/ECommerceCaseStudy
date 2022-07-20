@@ -16,13 +16,14 @@ namespace ECommerce.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer("Server=.;Database=ECommerceCaseStudy;Trusted_Connection=True;"));
 
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IStockRepository, StockRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IVariantRepository, VariantRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             return services;
         }
     }

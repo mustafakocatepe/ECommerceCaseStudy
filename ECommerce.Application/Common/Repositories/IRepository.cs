@@ -8,6 +8,8 @@ namespace ECommerce.Application.Common.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {
+        TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+
         Task AddAsync(TEntity entity);
         Task AddRangeAsync(IEnumerable<TEntity> entities);
         void Update(TEntity entity);

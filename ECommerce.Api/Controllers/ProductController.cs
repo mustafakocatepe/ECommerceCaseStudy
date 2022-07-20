@@ -16,7 +16,8 @@ namespace ECommerce.Api.Controllers
         [HttpGet("{productCode}/stock")]
         public IActionResult Get(string productCode)
         {
-            return View();
+            var response = _productService.GetStocksByProductCodeAsync(productCode);
+            return Ok();
         }
     }
 }

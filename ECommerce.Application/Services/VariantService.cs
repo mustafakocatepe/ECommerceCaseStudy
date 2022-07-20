@@ -24,8 +24,8 @@ namespace ECommerce.Application.Services
         }
 
         public async Task<Variant> Detail(string variantCode) 
-        {
-            return await _variantRepository.FirstOrDefaultAsync(x=> x.Code == variantCode);
+        {            
+            return _variantRepository.FirstOrDefault(x => x.Code == variantCode);
         }
 
         public async Task AddAsync(string variantCode)

@@ -15,6 +15,9 @@ namespace ECommerce.Api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
         public IActionResult Add([FromBody] CreateStockDto createStockDto)
         {
             _stockService.AddAsync(createStockDto);

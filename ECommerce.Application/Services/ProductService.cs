@@ -38,11 +38,16 @@ namespace ECommerce.Application.Services
             if (response != null)
                 return response;
 
-            response = _productRepository.FirstOrDefaultAsync(x => x.Code == productCode).Result.Stocks.Select(x=> new StockDto { Id = x.Id, Quantity = x.Quantity, VariantCode = x.Variant.Code }).ToList();
+            response = _productRepository.FirstOrDefault(x => x.Code == productCode)
+                        .Stocks
+                        .Select(x => new StockDto { Id = x.Id, Quantity = x.Quantity, VariantCode = x.Variant.Code })                        
+                        .GroupBy(x => x.VariantCode)
+                        .Select(g => new StockDto { VariantCode = g.Key, Quantity = g.Sum(s => s.Quantity) })
+                        .ToList();
 
             if (response.Count <= 0)
                 return null; // TO DO
-            
+
             _redisCacheService.Set(cacheKey, response);
 
             return response;

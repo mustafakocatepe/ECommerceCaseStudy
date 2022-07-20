@@ -70,6 +70,11 @@ namespace ECommerce.Infrastructure.Repositories
             return await _dbSet.FirstOrDefaultAsync(predicate);
         }
 
+        public virtual TEntity FirstOrDefault(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbSet.FirstOrDefault(predicate);
+        }
+
         public virtual async Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> criteria)
         {
             var response = criteria == null ? _dbSet.ToListAsync() : _dbSet.Where(criteria).ToListAsync();
