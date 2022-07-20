@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace ECommerce.Application.Common.Interfaces
 {
     public interface IVariantService
-    {
-        Task AddAsync(string productCode);
+    {      
         Task<Variant> Detail(string variantCode);
     }
 }

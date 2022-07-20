@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Common.DTOs;
+using ECommerce.Application.Common.Exceptions;
 using ECommerce.Application.Common.Interfaces;
 using ECommerce.Application.Common.Repositories;
 using ECommerce.Domain.Entities;
@@ -24,12 +25,6 @@ namespace ECommerce.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task AddAsync(string productCode)
-        {
-            var product = new Product() { Code = productCode };
-            await _productRepository.AddAsync(product);
-        }
-
         public async Task<List<StockDto>> GetStocksByProductCodeAsync(string productCode)
         {
             var cacheKey = string.Format(StockDetailByProductCode, productCode);
@@ -46,7 +41,7 @@ namespace ECommerce.Application.Services
                         .ToList();
 
             if (response.Count <= 0)
-                return null; // TO DO
+                throw new StateException("Stok bulunamadı");
 
             _redisCacheService.Set(cacheKey, response);
 

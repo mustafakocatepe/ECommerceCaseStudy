@@ -10,7 +10,7 @@ namespace ECommerce.Application.Common.Interfaces
 {
     public interface IStockService
     {
-        Task<Stock> AddAsync(CreateStockDto stockDto);
+        Task AddAsync(CreateStockDto stockDto);
         Task<StockDto> GetStockByVariantCodeAsync(string variantCode);
     }
 }

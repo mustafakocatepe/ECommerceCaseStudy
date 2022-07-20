@@ -1,4 +1,5 @@
 ﻿using ECommerce.Application.Common.DTOs.Stock;
+using ECommerce.Application.Common.Exceptions;
 using ECommerce.Application.Common.Repositories;
 using ECommerce.Domain.Entities;
 using ECommerce.Infrastructure.Context;
@@ -17,7 +18,7 @@ namespace ECommerce.Infrastructure.Repositories
             _context = context;
         }
 
-        public Stock Create(CreateStockDto createStockDto)
+        public void Create(CreateStockDto createStockDto)
         {
             using (var transaction = _context.Database.BeginTransaction())
             {
@@ -41,14 +42,12 @@ namespace ECommerce.Infrastructure.Repositories
                     }).Entity;
 
                     _context.SaveChanges();
-                    transaction.Commit();
-
-                    return stock;
+                    transaction.Commit();                    
                 }
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    throw new Exception { }; //TODO:
+                    throw new StateException("Stok eklenmesı sırasında bir hata oluştu"); 
                 }
             }
         }

@@ -27,13 +27,5 @@ namespace ECommerce.Application.Services
         {            
             return _variantRepository.FirstOrDefault(x => x.Code == variantCode);
         }
-
-        public async Task AddAsync(string variantCode)
-        {
-            var variant = new Variant() { Code = variantCode };
-            await _variantRepository.AddAsync(variant);
-        }
-
-        
     }
 }

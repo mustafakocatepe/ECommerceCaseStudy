@@ -23,10 +23,10 @@ namespace ECommerce.Api.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> Add([FromBody] CreateStockDto createStockDto)
         {
-            if (createStockDto == null)            
-                return BadRequest();
-            
-            var stock = await _stockService.AddAsync(createStockDto);
+            if (createStockDto == null)
+                return CreateActionResult(ResponseState<Stock>.Handle(400, "Geçersiz bir istek", null));
+
+            await _stockService.AddAsync(createStockDto);
             return CreateActionResult(ResponseState<Stock>.Handle(201, "Stok Başarılı bir şekilde eklendi", null));
         }
     }

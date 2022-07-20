@@ -9,6 +9,6 @@ namespace ECommerce.Application.Common.Repositories
 {
     public interface IStockRepository : IRepository<Stock>
     {
-        Stock Create(CreateStockDto createStockDto);
+        void Create(CreateStockDto createStockDto);
     }
 }
