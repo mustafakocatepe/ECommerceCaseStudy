@@ -20,7 +20,7 @@ namespace Ecommerce.UnitTests.Services
 
         [Theory]
         [InlineData("1000000851096")]
-        public void DetailAsync_Return_Contact(string variantCode)
+        public void DetailAsync_Return_Variant(string variantCode)
         {
             // Arrange           
             var variantService = new VariantService(_variantRepository);
