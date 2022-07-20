@@ -12,7 +12,6 @@ namespace ECommerce.Application.Services
     public class VariantService : IVariantService
     {
         private readonly IVariantRepository _variantRepository;
-        public const string StockDetailByVariantCode = "StockDetailByVariantCode:{0}";
 
         public VariantService(IVariantRepository variantRepository)
         {
