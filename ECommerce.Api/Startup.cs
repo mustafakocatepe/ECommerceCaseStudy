@@ -1,6 +1,7 @@
 using ECommerce.Api.Middlewares;
 using ECommerce.Application;
 using ECommerce.Infrastructure;
+using ECommerce.Infrastructure.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -46,14 +47,13 @@ namespace ECommerce.Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => {
-                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
-                });
-            }
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Showing API V1");
+            });
+
 
             app.UseHttpsRedirection();
 
@@ -62,6 +62,8 @@ namespace ECommerce.Api
             app.UseRouting();
 
             app.UseAuthorization();
+
+            PrepDb.PrepPopulation(app);
 
             app.UseEndpoints(endpoints =>
             {
