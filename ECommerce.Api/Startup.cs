@@ -1,3 +1,4 @@
+using ECommerce.Api.Middlewares;
 using ECommerce.Application;
 using ECommerce.Infrastructure;
 using Microsoft.AspNetCore.Builder;
@@ -55,6 +56,8 @@ namespace ECommerce.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseExceptionHandlingMiddleware();
 
             app.UseRouting();
 

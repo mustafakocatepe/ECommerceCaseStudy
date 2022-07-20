@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ECommerce.Application.Common.DTOs;
 using ECommerce.Application.Common.DTOs.Stock;
+using ECommerce.Application.Common.Exceptions;
 using ECommerce.Application.Common.Interfaces;
 using ECommerce.Application.Common.Repositories;
 using ECommerce.Domain.Entities;
@@ -58,10 +59,10 @@ namespace ECommerce.Application.Services
             if (response != null)
                 return response;
 
-            var stocks = await _stockRepository.GetListAsync(x => x.Variant.Code == variantCode);            
+            var stocks = await _stockRepository.GetListAsync(x => x.Variant.Code == variantCode);
 
-            if (stocks == null)
-                return null; // TO DO
+            if (stocks.Count <= 0)
+                throw new StateException("Stok bulunamadı"); 
 
             response = new StockDto() { VariantCode = variantCode, Quantity = stocks.Sum(x => x.Quantity) };
             _redisCacheService.Set(cacheKey, response);
