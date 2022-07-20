@@ -53,8 +53,8 @@ dotnet run -p ./ECommerce.Api/ECommerce.Api.csproj
 Run docker compose commands in API Project :boom:
 
 ```bash
-docker-compose build
-docker-compose run
+docker compose build
+docker compose up
 ```
 
 ## Endpoints
