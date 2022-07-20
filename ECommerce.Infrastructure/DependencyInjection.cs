@@ -16,8 +16,8 @@ namespace ECommerce.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
-            services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer("Server=ms-sql-server,1433;Database=ECommerceCaseStudy;User Id=SA;Password=Password@12345;"));
+            services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ECommerceDbContext>(options => options.UseSqlServer("Server=ms-sql-server,1433;Database=ECommerceCaseStudy;User Id=SA;Password=Password@12345;"));
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IStockRepository, StockRepository>();

@@ -12,15 +12,11 @@ namespace ECommerce.Application.Services
     public class VariantService : IVariantService
     {
         private readonly IVariantRepository _variantRepository;
-        private readonly IRedisCacheService _redisCacheService;
-        private readonly IUnitOfWork _unitOfWork;
         public const string StockDetailByVariantCode = "StockDetailByVariantCode:{0}";
 
-        public VariantService(IVariantRepository variantRepository, IUnitOfWork unitOfWork, IRedisCacheService redisCacheService)
+        public VariantService(IVariantRepository variantRepository)
         {
-            _variantRepository = variantRepository;
-            _redisCacheService = redisCacheService;
-            _unitOfWork = unitOfWork;
+            _variantRepository = variantRepository;            
         }
 
         public async Task<Variant> Detail(string variantCode) 

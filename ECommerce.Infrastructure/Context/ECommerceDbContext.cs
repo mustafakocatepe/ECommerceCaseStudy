@@ -20,15 +20,8 @@ namespace ECommerce.Infrastructure.Context
             base.OnModelCreating(modelBuilder);
         }
 
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer(
-        //        @"Server=.;Database=ECommerceCaseStudy;Trusted_Connection=True;");
-        //}
-
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Stock> Stocks { get; set; }
-    public DbSet<Variant> Variants { get; set; }
-}
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
+        public DbSet<Variant> Variants { get; set; }
+    }
 }

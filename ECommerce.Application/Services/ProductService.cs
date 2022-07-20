@@ -15,14 +15,12 @@ namespace ECommerce.Application.Services
     {
         private readonly IProductRepository _productRepository;
         private readonly IRedisCacheService _redisCacheService;
-        private readonly IUnitOfWork _unitOfWork;
         public const string StockDetailByProductCode = "StockDetailByProductCode:{0}";
 
-        public ProductService(IProductRepository productRepository, IUnitOfWork unitOfWork, IRedisCacheService redisCacheService)
+        public ProductService(IProductRepository productRepository,  IRedisCacheService redisCacheService)
         {
             _productRepository = productRepository;
             _redisCacheService = redisCacheService;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<List<StockDto>> GetStocksByProductCodeAsync(string productCode)
