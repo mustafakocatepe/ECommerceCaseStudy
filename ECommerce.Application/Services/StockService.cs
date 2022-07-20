@@ -15,6 +15,8 @@ namespace ECommerce.Application.Services
         private readonly IVariantService _variantService;
         private readonly IRedisCacheService _redisCacheService;        
         public const string StockDetailByVariantCode = "StockDetailByVariantCode:{0}";
+        public const string StockDetailByProductCode = "StockDetailByProductCode:{0}";
+
 
 
         public StockService(IStockRepository stockRepository, IVariantService variantService, IRedisCacheService redisCacheService)
@@ -28,8 +30,8 @@ namespace ECommerce.Application.Services
         {
             var variant = await _variantService.Detail(stockDto.VariantCode);
 
-            if (variant == null)
-                _stockRepository.Create(stockDto);
+            if (variant == null)             
+                _stockRepository.Create(stockDto);   
             else
             {
                 var stock = new Stock()
@@ -38,6 +40,8 @@ namespace ECommerce.Application.Services
                     VariantId = variant.Id,
                     Quantity =  stockDto.Quantity,
                 };
+                _redisCacheService.Remove(string.Format(StockDetailByVariantCode, stockDto.VariantCode));
+                _redisCacheService.Remove(string.Format(StockDetailByProductCode, stockDto.ProductCode));
                 await _stockRepository.AddAsync(stock);               
             }
         }
