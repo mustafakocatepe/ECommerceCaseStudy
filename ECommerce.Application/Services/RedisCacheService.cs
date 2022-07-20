@@ -20,7 +20,7 @@ namespace ECommerce.Application.Services
         {
             _config = config;
             //conf = new RedisEndpoint { Host = _config.Value.Host, Port = _config.Value.Port, Db = _config.Value.DefaultDatabase, RetryTimeout = 1000 }; // TO DO 
-            conf = new RedisEndpoint { Host = "127.0.0.1", Port = 6379, Db = 4, RetryTimeout = 1000 };
+            conf = new RedisEndpoint { Host = "redis", Port = 6379, Db = 4, RetryTimeout = 1000 };
         }
         public T Get<T>(string key)
         {
