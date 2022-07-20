@@ -6,6 +6,7 @@ using ECommerce.Application.Common.Repositories;
 using ECommerce.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,12 +30,12 @@ namespace ECommerce.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task AddAsync(CreateStockDto stockDto)
+        public async Task<Stock> AddAsync(CreateStockDto stockDto)
         {
             var variant = await _variantService.Detail(stockDto.VariantCode);
 
             if (variant == null)
-                _stockRepository.Create(stockDto);
+                return _stockRepository.Create(stockDto);
             else
             {
                 var stock = new Stock()
@@ -45,6 +46,7 @@ namespace ECommerce.Application.Services
                 };
 
                 await _stockRepository.AddAsync(stock);
+                return stock;
             }
         }
 
@@ -56,12 +58,12 @@ namespace ECommerce.Application.Services
             if (response != null)
                 return response;
 
-            var stock = _stockRepository.FirstOrDefaultAsync(x => x.Variant.Code == variantCode).Result;
+            var stocks = await _stockRepository.GetListAsync(x => x.Variant.Code == variantCode);            
 
-            if (stock == null)
+            if (stocks == null)
                 return null; // TO DO
 
-            response = new StockDto() { Id = stock.Id, Quantity = stock.Quantity };
+            response = new StockDto() { VariantCode = variantCode, Quantity = stocks.Sum(x => x.Quantity) };
             _redisCacheService.Set(cacheKey, response);
 
             return response;

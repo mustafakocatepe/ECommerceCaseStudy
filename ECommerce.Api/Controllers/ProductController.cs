@@ -1,11 +1,15 @@
-﻿using ECommerce.Application.Common.Interfaces;
+﻿using ECommerce.Application.Common.DTOs;
+using ECommerce.Application.Common.DTOs.Response;
+using ECommerce.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ECommerce.Api.Controllers
 {
     [ApiController]
     [Route("api/products")]
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductService _productService;
         public ProductController(IProductService productService)
@@ -14,10 +18,10 @@ namespace ECommerce.Api.Controllers
         }
 
         [HttpGet("{productCode}/stock")]
-        public IActionResult Get(string productCode)
+        public async Task<IActionResult> Get(string productCode)
         {
-            var response = _productService.GetStocksByProductCodeAsync(productCode);
-            return Ok();
+            var response = await _productService.GetStocksByProductCodeAsync(productCode);
+            return CreateActionResult(ResponseState<List<StockDto>>.Handle(200, "", response));
         }
     }
 }

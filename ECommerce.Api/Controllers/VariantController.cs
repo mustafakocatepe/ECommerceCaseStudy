@@ -1,22 +1,26 @@
-﻿using ECommerce.Application.Common.Interfaces;
+﻿using ECommerce.Application.Common.DTOs;
+using ECommerce.Application.Common.DTOs.Response;
+using ECommerce.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace ECommerce.Api.Controllers
 {
     [ApiController]
     [Route("api/variants")]
-    public class VariantController : Controller
+    public class VariantController : BaseController
     {
-        private readonly IVariantService _variantService;
-        public VariantController(IVariantService variantService)
+        private readonly IStockService _stockService;
+        public VariantController(IStockService stockService)
         {
-            _variantService = variantService;
+            _stockService = stockService;
         }
 
         [HttpGet("{variantCode}/stock")]
-        public IActionResult Get(string variantCode)
+        public async Task<IActionResult> Get(string variantCode)
         {
-            return View();
+            var response = await _stockService.GetStockByVariantCodeAsync(variantCode);
+            return CreateActionResult(ResponseState<StockDto>.Handle(200, "", response));
         }
     }
 }

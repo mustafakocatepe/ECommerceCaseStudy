@@ -40,7 +40,7 @@ namespace ECommerce.Application.Services
 
             response = _productRepository.FirstOrDefault(x => x.Code == productCode)
                         .Stocks
-                        .Select(x => new StockDto { Id = x.Id, Quantity = x.Quantity, VariantCode = x.Variant.Code })                        
+                        .Select(x => new StockDto { Quantity = x.Quantity, VariantCode = x.Variant.Code })                        
                         .GroupBy(x => x.VariantCode)
                         .Select(g => new StockDto { VariantCode = g.Key, Quantity = g.Sum(s => s.Quantity) })
                         .ToList();
