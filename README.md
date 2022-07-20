@@ -77,6 +77,7 @@ http://localhost:8080/swagger/index.html
 * [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) - .NET ORM Tool
 * [Swagger](https://swagger.io/) - API developer tools for testing and documention
 * [Redis Cache](https://github.com/StackExchange/StackExchange.Redis)
+* [xUnit](https://xunit.net/)
 
 ## Contributing
 
