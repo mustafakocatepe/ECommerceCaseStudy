@@ -11,12 +11,9 @@ namespace ECommerce.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Variant> builder)
         {
-            builder
-             .HasKey(x => x.Id);
+            builder.HasKey(x => x.Id);
 
-            builder
-                .Property(x => x.ProductId)
-                .IsRequired();
+            builder.Property(x => x.ProductId).IsRequired();
 
             builder
                 .HasOne(m => m.Product)

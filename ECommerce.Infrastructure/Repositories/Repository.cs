@@ -22,7 +22,6 @@ namespace ECommerce.Infrastructure.Repositories
         {
             await _context.Set<TEntity>().AddAsync(entity);
             _context.SaveChanges();
-            //await _context.SaveChangesAsync();
         }
 
         public async Task AddRangeAsync(IEnumerable<TEntity> entities)

@@ -5,6 +5,7 @@ using ECommerce.Domain.Entities;
 using ECommerce.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,10 +25,15 @@ namespace ECommerce.Infrastructure.Repositories
             {
                 try
                 {
-                    var product =  _context.Set<Product>().Add(new Product() { Code = createStockDto.ProductCode }).Entity;
+                    var product = _context.Set<Product>().FirstOrDefault(x=> x.Code == createStockDto.ProductCode);
 
-                    _context.SaveChanges();
-                    _context.Update(product); // TO DO
+                    if (product == null) 
+                    {
+                        product = _context.Set<Product>().Add(new Product() { Code = createStockDto.ProductCode }).Entity;
+
+                        _context.SaveChanges();
+                        _context.Update(product); // TO DO
+                    }
 
                     var variant =  _context.Set<Variant>().Add(new Variant() { Code = createStockDto.VariantCode, ProductId = product.Id }).Entity;
 
@@ -47,7 +53,7 @@ namespace ECommerce.Infrastructure.Repositories
                 catch (Exception ex)
                 {
                     transaction.Rollback();
-                    throw new StateException("Stok eklenmesı sırasında bir hata oluştu"); 
+                    throw new StateException("Stok eklenmesi sırasında bir hata oluştu"); 
                 }
             }
         }

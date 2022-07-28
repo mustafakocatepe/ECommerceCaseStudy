@@ -31,12 +31,16 @@ namespace ECommerce.Application.Services
             if (response != null)
                 return response;
 
-            response = _productRepository.FirstOrDefault(x => x.Code == productCode)
-                        .Stocks
-                        .Select(x => new StockDto { Quantity = x.Quantity, VariantCode = x.Variant.Code })                        
-                        .GroupBy(x => x.VariantCode)
-                        .Select(g => new StockDto { VariantCode = g.Key, Quantity = g.Sum(s => s.Quantity) })
-                        .ToList();
+            var product = _productRepository.FirstOrDefault(x => x.Code == productCode);
+
+            if (product == null)
+                throw new StateException("Ürün bulunamadı");
+
+            response = product.Stocks
+                         .Select(x => new StockDto { Quantity = x.Quantity, VariantCode = x.Variant.Code })
+                         .GroupBy(x => x.VariantCode)
+                         .Select(g => new StockDto { VariantCode = g.Key, Quantity = g.Sum(s => s.Quantity) })
+                         .ToList();
 
             if (response.Count <= 0)
                 throw new StateException("Stok bulunamadı");
